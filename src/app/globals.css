@@ -1,0 +1,212 @@
+@import 'tailwindcss';
+@plugin './hero.ts';
+
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --breakpoint-*: initial;
+    --breakpoint-sm: 480px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 976px;
+    --breakpoint-xl: 1440px;
+    --breakpoint-2xl: 3840px;
+
+    --font-*: initial;
+    --font-display: 'Afacad Flux', 'Source Code Pro', ui-sans;
+
+    --radius-4xl: 2rem;
+
+    --border-color-50: #fafafa;
+    --border-color-100: #f2f2f3;
+    --border-color-200: #ebebec;
+    --border-color-300: #e3e3e6;
+    --border-color-400: #dcdcdf;
+    --border-color-500: #d4d4d8;
+    --border-color-600: #afafb2;
+    --border-color-700: #8a8a8c;
+    --border-color-800: #656567;
+    --border-color-900: #404041;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+        transition: all 0.3s ease-in-out;
+    }
+}
+
+:root {
+    --background: #f8f7f2; /* Eggshell white */
+    --foreground: #080807; /* Warm dark brown */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #f8f7f2; /* Keep eggshell even in dark mode preference */
+        --foreground: #080807;
+    }
+}
+
+html {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
+body * {
+    user-select: none;
+}
+
+body > div[data-overlay-container='true'] {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
+*::-webkit-media-controls {
+    display: none !important;
+}
+*::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+:fullscreen.custom-video-controls {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+.video-controls-container div {
+    transition: all ease-in 1s;
+}
+div.custom-video-controls {
+    transition: all ease-in 250ms;
+}
+.video-controls-hidden {
+    opacity: 0;
+    background-color: transparent;
+}
+.overlay-visible {
+    opacity: 0.5;
+    background-image: (to top, black, transparent 50%),
+        linear-gradient(45deg, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+}
+.video-controls-visible {
+    opacity: 1;
+}
+
+.movie-banner {
+    transition: opacity 1s cubic-bezier(0.54, 0.33, 1, 0.96);
+}
+.movie-banner-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    transition: opacity 8s cubic-bezier(0.54, 0.33, 1, 0.96);
+    background-position: 50%;
+}
+
+.movie-banner-controls {
+    transition: opacity 10s cubic-bezier(0.54, 0.33, 1, 0.96);
+    z-index: 30;
+}
+.movie-banner-controls:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: inherit;
+    z-index: 20;
+
+    background: radial-gradient(circle at -75%, #000 45%, #0000 100%);
+}
+
+@media only screen and (min-width: 1024px) {
+    .movie-banner-controls::after {
+        left: 39%;
+        width: 61%;
+    }
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    justify-items: center;
+}
+
+.cover-img-container {
+    position: relative;
+}
+.slider {
+    transition: all 500ms ease-in-out;
+}
+
+.cover-img-container:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(360deg, #000, 50%, transparent);
+}
+
+.headline {
+    text-shadow: 0px 0px 10px #111;
+}
+
+.nameplate {
+    position: fixed;
+    z-index: 2;
+}
+
+.collection {
+    position: relative;
+    z-index: 20;
+    background: linear-gradient(180deg, transparent 0%, #111 15%, black);
+}
+
+@media only screen and (min-width: 360px) and (max-width: 1280px) {
+    .collection {
+        position: relative;
+        z-index: 20;
+        background: linear-gradient(180deg, transparent 0%, #111 5%, black);
+    }
+}
+
+.movie-desc-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
